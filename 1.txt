@@ -1,0 +1,238 @@
+import tkinter as tk
+from tkinter import *
+from tkinter import ttk
+from tkinter import messagebox
+from PIL import Image, ImageTk, ImageSequence
+
+def extract_frames(path):
+    gif_image = Image.open(path)
+    frames = [frame.copy() for frame in ImageSequence.Iterator(gif_image)]
+    return frames
+
+def update_frame(index):
+    frame = frames[index]
+    label2.config(image=frame)
+    window.after(50, update_frame, (index + 1) % len(frames))
+
+
+#2nd window
+def open_window2():
+    window2 = Toplevel(window)
+    window2.title("WINDOW 2")
+
+    canvas = Canvas(window2, width=800, height=800)
+    canvas.pack()
+    team_data=[
+            ["Warriors", "Talons"],
+            ["Stallions", "Flames"],
+            ["Rockets", "Islanders"],
+            ["Lakers", "Capitals"],
+            ["Avalanche", "Talons"],
+            ["Padres", "North Stars"],
+            ["Reds", "Unstoppable"],
+            ["Kings", "Titans"],
+            ["Avalanche", "Senators"],
+            ["Warriors", "Unstoppable"],
+            ["Stallions", "Titans"],
+            ["Rockets", "Senators"],
+            ["Padres", "Capitals"],
+            ["Reds", "Islanders"],
+            ["Kings", "Unstoppable"],
+            ["Padres", "Titans"],
+            ["Reds", "Senators"],
+            ["Warriors", "Capitals"],
+            ["Stallions", "North Stars"],
+            ["Lakers", "Flames"],
+        ]
+
+    
+    bg_image = PhotoImage(file=r"C:\Users\Admin\Pictures\window2 bg.png")
+    canvas.create_image(0, 0, anchor=NW, image=bg_image)
+
+    table = ttk.Treeview(window2, columns=("Team A", "Team B"), show="headings")
+    table.heading("Team A", text="TEAM A")
+    table.heading("Team B", text="TEAM B")
+
+
+    for i, (team_a, team_b) in enumerate(team_data):
+        table.insert("", "end", values=(team_a, team_b))
+
+    button21 = Button(window2, text="OPEN Window 3", command=open_window3)
+
+    table.place(relx=0.5, rely=0.5, anchor=CENTER)
+    button21.place(relx=0.5, rely=0.9, anchor=CENTER)
+
+    column_width = 200
+    table.column("Team A", anchor="center", width=column_width)
+    table.column("Team B", anchor="center", width=column_width)
+
+    window2.update_idletasks() 
+    window2.mainloop()
+
+#  window3
+def open_window3():
+    window3 = Toplevel(window)
+    window3.title("WINDOW 3")
+    canvas = Canvas(window3, width=800, height=800)
+    canvas.pack()
+    # Data for the matches: Team A, Team B, Team A Score, Team B Score
+    matches = [
+        ["Warriors", "Talons", 28, 36],
+        ["Stallions", "Flames", 52, 34],
+        ["Rockets", "Islanders", 13, 42],
+        ["Lakers", "Capitals", 26, 41],
+        ["Avalanche", "Talons", 56, 20],
+        ["Padres", "North Stars", 45, 19],
+        ["Reds", "Unstoppable", 32, 59],
+        ["Kings", "Titans", 20, 47],
+        ["Avalanche", "Senators", 19, 37],
+        ["Warriors", "Unstoppable", 59, 28],
+        ["Stallions", "Titans", 47, 52],
+        ["Rockets", "Senators", 37, 13],
+        ["Padres", "Capitals", 45, 26],
+        ["Reds", "Islanders", 32, 56],
+        ["Kings", "Unstoppable", 20, 59],
+        ["Padres", "Titans", 45, 47],
+        ["Reds", "Senators", 32, 37],
+        ["Warriors", "Capitals", 20, 28],
+        ["Stallions", "North Stars", 19, 52],
+        ["Lakers", "Flames", 59, 34],
+    ]
+
+    bg_image = PhotoImage(file=r"C:\Users\Admin\Pictures\window2 bg.png")
+    canvas.create_image(0, 0, anchor=NW, image=bg_image)
+   
+
+
+
+    table = ttk.Treeview(window3, columns=("Team A", "Score", "Team B", "Score"))
+    table.heading("#0", text="Match")
+    table.column("#0", anchor="center", width=100)
+    table.heading("Team A", text="TEAM A")
+    table.column("Team A", anchor="center", width=100)
+    table.heading("Score", text="SCORE")
+    table.column("Score", anchor="center", width=100)
+    table.heading("Team B", text="TEAM B")
+    table.column("Team B", anchor="center", width=100)
+    table.heading("Score", text="SCORE")
+    table.column("Score", anchor="center", width=100)
+
+    for i, match in enumerate(matches, start=1):
+        team_a, team_b, score_a, score_b = match
+        table.insert("", "end", text=f"Match {i}", values=(team_a, score_a, team_b, score_b))
+
+    table.pack(padx=10, pady=10)
+    
+
+
+    button31 = Button(window3, text="OPEN Window 4", command=open_window4)
+    button31.pack()
+    table.place(relx=0.5, rely=0.5, anchor=CENTER)
+    button31.place(relx=0.5, rely=0.9, anchor=CENTER)
+    window3.mainloop()
+
+# window4
+def open_window4():
+    window4 = Toplevel(window)
+    window4.title("WINDOW 4")
+    canvas = Canvas(window4, width=700, height=700)
+    canvas.pack()
+
+   #teams data
+    records = [
+        ("Warriors", 28, "Talons", 36),
+        ("Stallions", 52, "Flames", 34),
+        ("Rockets", 13, "Islanders", 42),
+        ("Lakers", 26, "Capitals", 41),
+        ("Avalanche", 56, "Talons", 36),
+        ("Padres", 45, "North Stars", 52),
+        ("Reds", 32, "Unstoppable", 59),
+        ("Kings", 20, "Titans", 47),
+        ("Avalanche", 56, "Senators", 37),
+        ("Warriors", 28, "Unstoppable", 59),
+        ("Stallions", 52, "Titans", 52),
+        ("Rockets", 13, "Senators", 37),
+        ("Padres", 45, "Capitals", 41),
+        ("Reds", 32, "Islanders", 42),
+        ("Kings", 20, "Unstoppable", 59),
+        ("Padres", 45, "Titans", 47),
+        ("Reds", 32, "Senators", 37),
+        ("Warriors", 28, "Capitals", 41),
+        ("Stallions", 52, "North Stars", 52),
+        ("Lakers", 26, "Flames", 34)
+    ]
+    bg_image = PhotoImage(file=r"C:\Users\Admin\Pictures\window2 bg.png")
+    canvas.create_image(0, 0, anchor=NW, image=bg_image)
+    def compare_teams():
+        team_a = team_a_entry.get()
+        team_b = team_b_entry.get()
+        team_a_score = None
+        team_b_score = None
+        
+        for record in records:
+            if record[0] == team_a:
+                team_a_score = record[1]
+            elif record[2] == team_b:
+                team_b_score = record[3]
+                
+        if team_a_score is None or team_b_score is None:
+            result_label.config(text="Invalid team names")
+        elif team_a_score > team_b_score:
+            result_label.config(text=f"{team_a} has a higher score than {team_b}")
+        elif team_a_score < team_b_score:
+            result_label.config(text=f"{team_b} has a higher score than {team_a}")
+        else:
+            result_label.config(text="Both teams have the same score")
+
+  
+
+   
+    team_a_label = tk.Label(window4, text="Enter Team A:")
+    team_a_label.pack()
+
+    team_a_entry = tk.Entry(window4)
+    team_a_entry.pack()
+
+    team_b_label = tk.Label(window4, text="Enter Team B:")
+    team_b_label.pack()
+
+    team_b_entry = tk.Entry(window4)
+    team_b_entry.pack()
+
+    compare_button = tk.Button(window4, text="Compare Scores", command=compare_teams)
+    compare_button.pack()
+
+    result_label = tk.Label(window4, text="", wraplength=300, justify="center")
+    result_label.place
+    result_label.pack()
+    team_a_label.place(relx=0.5, rely=0.2, anchor="center")
+    team_a_entry.place(relx=0.5, rely=0.3, anchor="center")
+    team_b_label.place(relx=0.5, rely=0.4, anchor="center")
+    team_b_entry.place(relx=0.5, rely=0.5, anchor="center")
+    compare_button.place(relx=0.5, rely=0.6, anchor="center")
+    result_label.place(relx=0.5, rely=0.7, anchor="center")
+
+    window4.mainloop()
+
+#1st window
+window = tk.Tk()
+window.title("Main Window")
+
+label1 = ttk.Label(window, text='TEAM TOURNAMENT', font=('Verdana 15'))
+label1.pack()
+
+video_path = r"C:\Users\Admin\Pictures\one more gif.gif" 
+
+frames = extract_frames(video_path)
+frames = [ImageTk.PhotoImage(frame) for frame in frames]
+
+label2 = ttk.Label(window)
+label2.pack()
+
+update_frame(0)
+
+button10 = Button(window, text="OPEN Window 2", command=open_window2)
+button10.pack()
+
+
+window.mainloop()
